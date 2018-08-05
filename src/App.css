@@ -49,10 +49,14 @@
 .tile {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.imageTile {
-
+.translucent {
+  opacity: .5;
 }
 .dashedBorder {
   border: 2px dashed gray;
@@ -95,16 +99,82 @@
   filter: brightness(50%);
 }
 
+.linkWeight {
+  height: 5vh;
+  animation: grow 0.2s ease-in;
+}
+
+@keyframes grow {
+  from {
+    flex: 0;
+    transform: scaleY(0);
+  }
+  to {
+    flex: 1;
+    transform: scaleY(1);
+  }
+}
+
 .toolLabel {
   max-height: 25vh;
 }
 
-.linkOrigin::after {
-  content: '';
-  display: inline-block;
-  background-color: cornflowerblue;
-  width: 1vw;
-  height: 1vw;
+.nodeCenter {
+  border-radius: 50% 50%;
+  border: 3px solid #918C8C;
+  background-color: #160F0F;
   position: absolute;
-  z-index: 101;
+  z-index: 50;
+  margin: auto;
+  transition: background-color 0.2s ease-in;
+}
+
+.nodeCenter:hover {
+  background-color: #C2BBBB;
+}
+
+.nodeCenterHilit {
+  background-color: #C2BBBB;
+}
+
+.passthru {
+  pointer-events: none;
+}
+
+.interactable {
+  pointer-events: auto;
+}
+
+.nodeLink {
+  position: absolute;
+  width: 1vw;
+  height: 10vw;
+  z-index: 40;
+  border: 1px solid #918C8C;
+  background-color: #160F0F;
+  transition: background-color 0.2s ease-in;
+}
+
+.nodeLink:hover {
+  background-color: #C2BBBB;
+}
+
+.nodeLink:hover::after {
+  content: attr(data-id);
+}
+
+.north {
+  transform: translateY(3vw) rotateZ(180deg);
+}
+
+.west {
+
+}
+
+.east {
+  transform: translateX(-3vw) rotateZ(270deg);
+}
+
+.south {
+  transform: rotateZ(0deg);
 }

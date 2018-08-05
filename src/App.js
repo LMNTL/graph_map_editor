@@ -27,8 +27,10 @@ class App extends Component {
       uploadedImage: '',
       newNodeType: '',
       fileNameStatus: null,
-      newPropertyValue: 0
+      newPropertyValue: 0,
+      linkWeight: 100
     }
+    this.linkWeight = 100;
     this.uploadNodeTypesRef = React.createRef();
   }
 
@@ -177,6 +179,11 @@ class App extends Component {
     this.setState({ graphMode: !this.state.graphMode });
   }
 
+  changeLinkWeight = ( event ) => {
+    this.linkWeight = event.target.value;
+    this.setState({ linkWeight: event.target.value })
+  }
+
   saveNodeTypes = ( event ) => {
     let jsonString = JSON.stringify( this.state.nodeTypes );
     downloadFile( jsonString, 'nodeTypes.json' );
@@ -289,7 +296,6 @@ class App extends Component {
           </Button>
           <FormGroup controlId="nameForm" validationState={this.state.fileNameStatus}>
             <FormControl
-              className="nameInput"
               componentClass="input"
               type="text"
               value={this.name}
@@ -303,6 +309,7 @@ class App extends Component {
           graph={this.state.graph}
           dragging={this.state.draggingNode}
           graphMode={this.state.graphMode}
+          linkWeight={this.state.linkWeight}
           x={this.state.x}
           y={this.state.y}
           z={this.state.z}
@@ -314,8 +321,21 @@ class App extends Component {
             src={this.state.graphMode ? "gridView.png" : "edgeView.png"}
             circle
           />
+          { !this.state.graphMode ?
+            <div className='linkWeight'>
+              <h4>Link Weight</h4>
+              <FormControl
+                componentClass="input"
+                className="linkWeight"
+                type="number"
+                value={this.linkWeight}
+                onChange={this.changeLinkWeight}
+                bsSize='sm'
+              />
+            </div>
+          : null }
           <div className="toolLabel">
-            <p>Zoom</p>
+            <h4>Zoom</h4>
             <Slider
               className='zoomSlider'
               value={zoom}
